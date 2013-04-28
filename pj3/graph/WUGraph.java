@@ -14,7 +14,7 @@ public class WUGraph {
 
   public HashTableChained vertexTable;
   public HashTableChained edgeTable;
-  public DList edgeList;
+  public DList vertexList;
   public int numVertex = 0;
   public int numEdge = 0;
 
@@ -26,7 +26,7 @@ public class WUGraph {
   public WUGraph() {
     vertexTable = new HashTableChained(10);
     edgeTable = new HashTableChained(10);
-    edgeList = new DList();
+    vertexList = new DList();
   }
 
   /**
@@ -59,7 +59,17 @@ public class WUGraph {
    *
    * Running time:  O(|V|).
    */
-  public Object[] getVertices();
+  public Object[] getVertices() {
+    Object[] vertexArray = new Object[vertexCount];
+    DListNode v = vertexList.front();
+    int i = 0;
+    while (v.isValidNode) {
+      vertexArray[i] = ((Vertex)v.item()).vert;
+      i++;
+      v = v.next();
+    }
+    return vertexArray;
+  }
 
   /**
    * addVertex() adds a vertex (with no incident edges) to the graph.  The

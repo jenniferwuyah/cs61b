@@ -148,7 +148,14 @@ public class HashTableChained implements Dictionary {
   public Entry insert(Object key, Object value) {
     // Replace the following line with your solution.
     if (size/bucketSize > 0.75) {
-      //do something to resize
+      HashTableChained largerTable = new HashTableChained(1.25*bucketSize);
+      for (int i = 0; i < bucketSize; i++){
+        DListNode head = buckets[i].front();
+        while (head.isValid) {
+          Entry inserting = (Entry) head.item();
+          largerTable.insert(inserting.key(), inserting.value());
+        }
+      }
     }
     Entry newEntry = new Entry();
     newEntry.key = key;
@@ -174,7 +181,7 @@ public class HashTableChained implements Dictionary {
     DList bucket = buckets[compFunction(key.hashCode())];
     DListNode head = bucket.front();
 
-    while (head !=null) { // go through all items inside the slist 
+    while (head !=null) { // go through all items inside the dlist 
       if (head.item() == null) {
         return null;
       }
@@ -219,8 +226,15 @@ public class HashTableChained implements Dictionary {
       }
       head = head.next();
     }
-    if (size/bucketSize < 0.5){
-      //do something to resize
+    if (size/bucketSize < 0.5) {
+      HashTableChained largerTable = new HashTableChained(0.75*bucketSize);
+      for (int i = 0; i < bucketSize; i++){
+        DListNode head = buckets[i].front();
+        while (head.isValid) {
+          Entry inserting = (Entry) head.item();
+          largerTable.insert(inserting.key(), inserting.value());
+        }
+      }
     }
     if (found) {
       return removed;
