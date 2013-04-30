@@ -39,9 +39,9 @@ public class HashTableChained implements Dictionary {
     // Your solution here.
     bucketSize = closestPrime(sizeEstimate);
     buckets = new DList[bucketSize];
-    for (int i=0; i < bucketSize; i++) {
-      buckets[i] = new DList();
-    }
+//    for (int i=0; i < bucketSize; i++) {
+//      buckets[i] = new DList();
+//    }
     p = closestPrime(bucketSize*2);
     a = closestPrime(bucketSize+1);
     b = closestPrime(a+1);
@@ -133,6 +133,32 @@ public class HashTableChained implements Dictionary {
   }
 
   /**
+   *  helper for resizing the size of hashtable
+   *  
+   *  @param newSize-- new bucketSize
+   **/
+
+  public void resize(double newSize) {
+    bucketSize = closestPrime((int) (newSize*bucketSize));
+    System.out.println("bucketsize: "+bucketSize);
+    DList[] newBuckets = new DList[bucketSize];
+    for (int i = 0; i < buckets.length; i++) {
+      DListNode node = buckets[i].front();
+      System.out.println("bucket: "+node.item());
+      while (node.isValidNode()) {
+        Entry inserting = (Entry) node.item();
+        Object key = inserting.key();
+        if (newBuckets[compFunction(key.hashCode())] == null) {
+          newBuckets[compFunction(key.hashCode())] = new DList();
+        }
+        newBuckets[compFunction(key.hashCode())].insertBack(inserting);
+        node = node.next();
+      }
+    }
+    buckets = newBuckets;
+  }
+
+  /**
    *  Create a new Entry object referencing the input key and associated value,
    *  and insert the entry into the dictionary.  Return a reference to the new
    *  entry.  Multiple entries with the same key (or even the same key and
@@ -147,19 +173,16 @@ public class HashTableChained implements Dictionary {
 
   public Entry insert(Object key, Object value) {
     // Replace the following line with your solution.
-    if (size/bucketSize > 0.75) {
-      HashTableChained largerTable = new HashTableChained(1.25*bucketSize);
-      for (int i = 0; i < bucketSize; i++){
-        DListNode head = buckets[i].front();
-        while (head.isValid) {
-          Entry inserting = (Entry) head.item();
-          largerTable.insert(inserting.key(), inserting.value());
-        }
-      }
+    if ((double)size/bucketSize > 0.75) {
+      System.out.println("load factor: "+(double)size/bucketSize);
+      resize(2);  // expands table 1.25x larger than the existing one
     }
     Entry newEntry = new Entry();
     newEntry.key = key;
     newEntry.value = value;
+    if (buckets[compFunction(key.hashCode())] == null) {
+      buckets[compFunction(key.hashCode())] = new DList();
+    }
     buckets[compFunction(key.hashCode())].insertBack(newEntry);
     size++;
     return newEntry;
@@ -226,15 +249,8 @@ public class HashTableChained implements Dictionary {
       }
       head = head.next();
     }
-    if (size/bucketSize < 0.5) {
-      HashTableChained largerTable = new HashTableChained(0.75*bucketSize);
-      for (int i = 0; i < bucketSize; i++){
-        DListNode head = buckets[i].front();
-        while (head.isValid) {
-          Entry inserting = (Entry) head.item();
-          largerTable.insert(inserting.key(), inserting.value());
-        }
-      }
+    if ((double)(size/bucketSize) < 0.5) {
+      resize(0.5); //shrinks the table to 0.75x the existing table
     }
     if (found) {
       return removed;
@@ -242,7 +258,7 @@ public class HashTableChained implements Dictionary {
     return null;
   }
 
-  /**a
+  /**
    *  Remove all entries from the dictionary.
    */
   public void makeEmpty() {

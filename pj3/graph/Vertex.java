@@ -1,10 +1,14 @@
 /* Vertex.java */
 
+package graph;
+
+import list.*;
+
 public class Vertex {
 
 	Object vert;
 	int degree;
-	DList edges
+	DList edges;
 
 	public Vertex(Object obj) {
 		vert = obj;
@@ -12,8 +16,10 @@ public class Vertex {
 		edges = new DList();
 	}
 
-	public addEdge(Edge e) {
-		//not so sure if edge class is needed
+	public void addEdge(Edge e){
+		edges.insertBack(e);
+		degree++;
 	}
+
 
 }
