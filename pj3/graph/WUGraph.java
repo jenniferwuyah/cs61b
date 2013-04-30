@@ -95,7 +95,18 @@ public class WUGraph {
    *
    * Running time:  O(d), where d is the degree of "vertex".
    */
-  public void removeVertex(Object vertex);
+  public void removeVertex(Object vertex){
+    if (!isVertex(vertex)) {
+      return;
+    }
+    Vertex v = vertexTable.find(vertex).value();
+    DList allEdges = v.edges;
+    DListNode edge = allEdges.front();
+    while (edge.isValidNode()) {
+      
+    }
+
+  }
 
   /**
    * isVertex() returns true if the parameter "vertex" represents a vertex of

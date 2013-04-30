@@ -9,6 +9,7 @@ public class Vertex {
 	Object vert;
 	int degree;
 	DList edges;
+	DListNode position;
 
 	public Vertex(Object obj) {
 		vert = obj;

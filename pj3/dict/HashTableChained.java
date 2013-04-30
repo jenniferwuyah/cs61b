@@ -140,11 +140,14 @@ public class HashTableChained implements Dictionary {
 
   public void resize(double newSize) {
     bucketSize = closestPrime((int) (newSize*bucketSize));
-    System.out.println("bucketsize: "+bucketSize);
+    //System.out.println("bucketsize: "+bucketSize);
     DList[] newBuckets = new DList[bucketSize];
     for (int i = 0; i < buckets.length; i++) {
+      if (buckets[i] == null) {
+        continue;
+      }
       DListNode node = buckets[i].front();
-      System.out.println("bucket: "+node.item());
+      //System.out.println("bucket: "+node.item());
       while (node.isValidNode()) {
         Entry inserting = (Entry) node.item();
         Object key = inserting.key();
@@ -174,7 +177,7 @@ public class HashTableChained implements Dictionary {
   public Entry insert(Object key, Object value) {
     // Replace the following line with your solution.
     if ((double)size/bucketSize > 0.75) {
-      System.out.println("load factor: "+(double)size/bucketSize);
+      //System.out.println("load factor: "+(double)size/bucketSize);
       resize(2);  // expands table 1.25x larger than the existing one
     }
     Entry newEntry = new Entry();
@@ -231,12 +234,15 @@ public class HashTableChained implements Dictionary {
 
   public Entry remove(Object key) {
     // Replace the following line with your solution.
+    if (buckets[compFunction(key.hashCode())] == null) {
+      return null;
+    }
     DList bucket = buckets[compFunction(key.hashCode())];
     DListNode head = bucket.front();
     boolean found = false;
     Entry removed = new Entry();
 
-    while (head !=null) { // go through all items inside the slist 
+    while (head !=null) { // go through all items inside the list 
       if (head.item() == null) {
         break;
       }
@@ -277,11 +283,17 @@ public class HashTableChained implements Dictionary {
    */
   public void checkCollision() {
     int coll = 0;
+    int length;
     for (int i=0; i < bucketSize; i++) {
-      if (buckets[i].length() > 1) {
-        coll+= (buckets[i].length()-1);      
+      if (buckets[i] == null) {
+        length = 0;
+      } else {
+        length = buckets[i].length();
       }
-      System.out.println("Bucket "+i+" has "+buckets[i].length()+" entries.");
+      if (length > 1) {
+        coll+= (length-1);      
+      }
+      System.out.println("Bucket "+i+" has "+length+" entries.");
     }
     System.out.println("Total collisions: "+ coll);
   }
