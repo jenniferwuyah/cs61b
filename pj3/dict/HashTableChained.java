@@ -105,7 +105,6 @@ public class HashTableChained implements Dictionary {
 
   int compFunction(int code) {
     // Replace the following line with your solution.
-
     return mod(mod((a*code+b), p), (bucketSize-1));
   }
 
@@ -204,9 +203,11 @@ public class HashTableChained implements Dictionary {
    **/
 
   public Entry find(Object key) {
+    if (buckets[compFunction(key.hashCode())] == null) {
+      return null;
+    }
     DList bucket = buckets[compFunction(key.hashCode())];
     DListNode head = bucket.front();
-
     while (head !=null) { // go through all items inside the dlist 
       if (head.item() == null) {
         return null;
@@ -255,7 +256,7 @@ public class HashTableChained implements Dictionary {
       }
       head = head.next();
     }
-    if ((double)(size/bucketSize) < 0.5) {
+    if ((double)(size/bucketSize) < 0.5 && bucketSize > 5) {
       resize(0.5); //shrinks the table to 0.75x the existing table
     }
     if (found) {

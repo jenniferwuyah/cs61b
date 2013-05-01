@@ -19,8 +19,11 @@ public class Vertex {
 
 	public void addEdge(Edge e){
 		edges.insertBack(e);
+		e.position = this.edges.back();
 		degree++;
 	}
 
-
+	public void remove() {
+	    this.position.remove();
+	}
 }

@@ -1,6 +1,4 @@
-/* Edge.java */
-
-package graph;
+/* EdgeObj.java */
 
 import list.*;
 
@@ -11,7 +9,7 @@ public class Edge {
 	int weight;
 	DListNode position;
 
-	public Edge(Object u, Object v, int weight) {
+	public EdgeObj(Object u, Object v, int weight) {
 		pair = new VertexPair(u, v);
 		this.weight = weight;
 	}
