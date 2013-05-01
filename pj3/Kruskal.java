@@ -20,7 +20,6 @@ public class Kruskal {
   	WUGraph t = new WUGraph();
   	Object[] gVertices = g.getVertices();
   	EdgeWeight[] allEdges = new EdgeWeight[g.edgeCount()];
-  	System.out.println("edgeCount: "+g.edgeCount());
   	HashTableChained edgeHash = new HashTableChained();
   	int count = 0;
   	for (Object vertex : gVertices) {
@@ -29,10 +28,8 @@ public class Kruskal {
   		Object[] nList = neighbors.neighborList;
   		int[] wList = neighbors.weightList;
   		for (int i = 0; i<nList.length; i++) {
-  			System.out.println("i = "+i);
   			EdgeWeight edge = new EdgeWeight(vertex, nList[i], wList[i]);
   			if (edgeHash.find(edge) == null) {
-  				System.out.println("adding edge: "+ edgeHash.find(edge)+"  count: "+count);
   				edgeHash.insert(edge, edge);
 	  			allEdges[count] = edge;
 	  			count++;
@@ -52,7 +49,7 @@ public class Kruskal {
   		int v = (int)(vertexDict.find(edge.o2).value());
   		if (vSets.find(u) != vSets.find(v)) {
   			t.addEdge(edge.o1, edge.o2, edge.weight);
-  			vSets.union(u, v);
+  			vSets.union(vSets.find(u), vSets.find(v));
   		}
   	}
   	return t;
