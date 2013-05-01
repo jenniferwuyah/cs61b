@@ -2,11 +2,22 @@
 
 import graph.*;
 
+/**
+ * The EdgeWeight class represents an edge object for Kruskal's algorithm.
+ * An EdgeWeight object holds the two connecting vertices and its weight.
+ */
+
 public class EdgeWeight {
 
 	Object o1, o2;
 	int weight;
 
+  /**
+   *  EdgeWeight() constructor.
+   *  sets the two vertices and the weight of this edge.
+   *
+   *  Running time: O(1).
+   */
 	public EdgeWeight(Object u, Object v, int weight) {
 		this.o1 = u;
 		this.o2 = v;
@@ -15,7 +26,7 @@ public class EdgeWeight {
 
   /**
    * hashCode() returns a hashCode equal to the sum of the hashCodes of each
-   * of the two objects of the pair, so that the order of the objects will
+   * of the two objects of the edge, so that the order of the objects will
    * not affect the hashCode.  Self-edges are treated differently:  we don't
    * add an object's hashCode to itself, since the result would always be even.
    * We add one to the hashCode so that a self-edge will not collide with the
@@ -30,8 +41,8 @@ public class EdgeWeight {
 	}
 
   /**
-   * equals() returns true if this VertexPair represents the same unordered
-   * pair of objects as the parameter "o".  The order of the pair does not
+   * equals() returns true if this EdgeWeight represents the same unordered
+   * edge objects as the parameter "o".  The direction of the edge does not
    * affect the equality test, so (u, v) is found to be equal to (v, u).
    */
   public boolean equals(Object o) {
@@ -43,5 +54,5 @@ public class EdgeWeight {
     } else {
       return false;
     }
-  }	
+  }
 }

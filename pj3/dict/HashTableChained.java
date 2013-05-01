@@ -33,15 +33,13 @@ public class HashTableChained implements Dictionary {
    *  Construct a new empty hash table intended to hold roughly sizeEstimate
    *  entries.  (The precise number of buckets is up to you, but we recommend
    *  you use a prime number, and shoot for a load factor between 0.5 and 1.)
+   *
+   *  Running time: O(1).
    **/
 
   public HashTableChained(int sizeEstimate) {
-    // Your solution here.
     bucketSize = closestPrime(sizeEstimate);
     buckets = new DList[bucketSize];
-//    for (int i=0; i < bucketSize; i++) {
-//      buckets[i] = new DList();
-//    }
     p = closestPrime(bucketSize*2);
     a = closestPrime(bucketSize+1);
     b = closestPrime(a+1);
@@ -53,14 +51,13 @@ public class HashTableChained implements Dictionary {
    **/
 
   public HashTableChained() {
-    // Your solution here.
     this(101);
   }
 
   /**
    *  Helper functions: finding closest prime greater or equal to integer n
    *  isPrime() check if integer n is prime
-   *  closestPrime() finds the closest prime to n
+   *  closestPrime() finds the closest prime to n.
    **/
 
   private boolean isPrime(int n) {
@@ -104,7 +101,6 @@ public class HashTableChained implements Dictionary {
    **/
 
   int compFunction(int code) {
-    // Replace the following line with your solution.
     return mod(mod((a*code+b), p), (bucketSize-1));
   }
 
@@ -116,7 +112,6 @@ public class HashTableChained implements Dictionary {
    **/
 
   public int size() {
-    // Replace the following line with your solution.
     return size;
   }
 
@@ -127,7 +122,6 @@ public class HashTableChained implements Dictionary {
    **/
 
   public boolean isEmpty() {
-    // Replace the following line with your solution.
     return (size == 0);
   }
 
@@ -135,18 +129,18 @@ public class HashTableChained implements Dictionary {
    *  helper for resizing the size of hashtable
    *  
    *  @param newSize-- new bucketSize
+   *
+   *  Running time: O(n), where n is the number of items in the HashTable.
    **/
 
   public void resize(double newSize) {
     bucketSize = closestPrime((int) (newSize*bucketSize));
-    //System.out.println("bucketsize: "+bucketSize);
     DList[] newBuckets = new DList[bucketSize];
     for (int i = 0; i < buckets.length; i++) {
       if (buckets[i] == null) {
         continue;
       }
       DListNode node = buckets[i].front();
-      //System.out.println("bucket: "+node.item());
       while (node.isValidNode()) {
         Entry inserting = (Entry) node.item();
         Object key = inserting.key();
@@ -174,10 +168,8 @@ public class HashTableChained implements Dictionary {
    **/
 
   public Entry insert(Object key, Object value) {
-    // Replace the following line with your solution.
     if ((double)size/bucketSize > 0.75) {
-      //System.out.println("load factor: "+(double)size/bucketSize);
-      resize(2);  // expands table 1.25x larger than the existing one
+      resize(1.25);  // expands table 1.25x larger than the existing one
     }
     Entry newEntry = new Entry();
     newEntry.key = key;
@@ -234,7 +226,6 @@ public class HashTableChained implements Dictionary {
    */
 
   public Entry remove(Object key) {
-    // Replace the following line with your solution.
     if (buckets[compFunction(key.hashCode())] == null) {
       return null;
     }
@@ -257,7 +248,7 @@ public class HashTableChained implements Dictionary {
       head = head.next();
     }
     if ((double)(size/bucketSize) < 0.5 && bucketSize > 5) {
-      resize(0.5); //shrinks the table to 0.75x the existing table
+      resize(0.75); //shrinks the table to 0.75x the existing table
     }
     if (found) {
       return removed;
@@ -269,7 +260,6 @@ public class HashTableChained implements Dictionary {
    *  Remove all entries from the dictionary.
    */
   public void makeEmpty() {
-    // Your solution here.
     for (int i=0; i < bucketSize; i++) {
       buckets[i] = new DList();
       size = 0;

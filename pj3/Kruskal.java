@@ -17,6 +17,7 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
   public static WUGraph minSpanTree(WUGraph g) {
+    // Part [1]
   	WUGraph t = new WUGraph();
   	Object[] gVertices = g.getVertices();
   	EdgeWeight[] allEdges = new EdgeWeight[g.edgeCount()];
@@ -24,25 +25,26 @@ public class Kruskal {
   	int count = 0;
   	for (Object vertex : gVertices) {
   		t.addVertex(vertex);
+      // Part [2]
   		Neighbors neighbors = g.getNeighbors(vertex);
   		Object[] nList = neighbors.neighborList;
   		int[] wList = neighbors.weightList;
   		for (int i = 0; i<nList.length; i++) {
   			EdgeWeight edge = new EdgeWeight(vertex, nList[i], wList[i]);
-  			if (edgeHash.find(edge) == null) {
+  			if (edgeHash.find(edge) == null) { // won't add the same edge twice
   				edgeHash.insert(edge, edge);
 	  			allEdges[count] = edge;
 	  			count++;
   			}
   		}
   	}
+    // Part [3]
   	mergeSort(allEdges);
-  	// do part [4]
-  	HashTableChained vertexDict = new HashTableChained();
+  	// Part [4]
+  	Dictionary vertexDict = new HashTableChained();
   	for (int v = 0; v < gVertices.length; v++) {
   		vertexDict.insert(gVertices[v], v);
   	}
-
   	DisjointSets vSets = new DisjointSets(gVertices.length);
   	for (EdgeWeight edge : allEdges) {
   		int u = (int)(vertexDict.find(edge.o1).value());
@@ -56,14 +58,13 @@ public class Kruskal {
   }
 
 
-
+  ///// SORTING ALGORITHM. Running time: O(|E| log |E|) /////
   /**
    *  Mergesort algorithm.
    *  @param a an array of int items.
    **/
   public static void mergeSort(EdgeWeight[] a) {
     EdgeWeight[] tmpArray = new EdgeWeight[a.length];
-
     mergeSort(a, tmpArray, 0, a.length - 1);
   }
 
@@ -74,7 +75,8 @@ public class Kruskal {
    *  @param left the left-most index of the subarray.
    *  @param right the right-most index of the subarray.
    **/
-  private static void mergeSort(EdgeWeight[] a, EdgeWeight[] tmpArray, int left, int right) {
+  private static void mergeSort(EdgeWeight[] a, EdgeWeight[] tmpArray, 
+                                int left, int right) {
     if (left < right) {
       int center = (left + right) / 2;
       mergeSort(a, tmpArray, left, center);
@@ -91,8 +93,8 @@ public class Kruskal {
    *  @param rightPos the index of the start of the second half.
    *  @param rightEnd the right-most index of the subarray.
    **/
-  private static void merge(EdgeWeight[] a, EdgeWeight[] tmpArray, int leftPos, int rightPos,
-                            int rightEnd) {
+  private static void merge(EdgeWeight[] a, EdgeWeight[] tmpArray, 
+                            int leftPos, int rightPos, int rightEnd) {
     int leftEnd = rightPos - 1;
     int tmpPos = leftPos;
     int numElements = rightEnd - leftPos + 1;

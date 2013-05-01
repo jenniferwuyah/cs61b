@@ -197,20 +197,21 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public void addEdge(Object u, Object v, int weight) {
-    if (!(isVertex(u) && isVertex(v))) {
+    if (!(isVertex(u) && isVertex(v))) { // u and/or v is not vertex
       return;
     }
     VertexPair pair = new VertexPair(u, v);
-    if (isEdge(u, v)) {
+    if (isEdge(u, v)) { // edge is already contained in graph
       Edge e = (Edge) findEdge(u, v).value();
       e.weight = weight;
       return;
     }
+    // adds an edge to graph
     Edge e1 = new Edge(u, v, weight);
     Vertex v1 = (Vertex) findVertex(u).value();
-    if (u == v) {
+    if (u.equals(v)) { // self-edge is only added once
       v1.addEdge(e1);
-    } else {
+    } else { // creates a partner edge
       Edge e2 = new Edge(v, u, weight);
       Vertex v2 = (Vertex) findVertex(v).value();
       e1.partner = e2;
@@ -231,19 +232,20 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public void removeEdge(Object u, Object v) {
-    if (!(isVertex(u) && isVertex(v))) {
+    if (!(isVertex(u) && isVertex(v))) { // u and/or v is not vertex
       return;
     }
-    if (!isEdge(u, v)) {
+    if (!isEdge(u, v)) { //(u, v) is not an edge
       return;
     }
+
     VertexPair pair = new VertexPair(u, v);
     Edge e = (Edge) findEdge(u, v).value();
     ((Vertex) findVertex(u).value()).degree--;
-    if (u != v) {
+    if (!u.equals(v)) { // reduce the degree of v if not a self-edge
       ((Vertex) findVertex(v).value()).degree--;
     }
-    e.remove();
+    e.remove(); // remove edge (and partner) from edgeList of vertex
     edgeTable.remove(pair);
     edgeCount--;
   }

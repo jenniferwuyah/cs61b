@@ -13,8 +13,6 @@ public class DListNode extends ListNode {
    *  (inherited)  myList references the List that contains this node.
    *  prev references the previous node in the DList.
    *  next references the next node in the DList.
-   *
-   *  DO NOT CHANGE THE FOLLOWING FIELD DECLARATIONS.
    **/
 
   protected DListNode prev;
@@ -42,7 +40,7 @@ public class DListNode extends ListNode {
    *
    *  @return true if this node is valid; false otherwise.
    *
-   *  Performance:  runs in O(1) time.
+   *  Running time: O(1).
    */
   public boolean isValidNode() {
     return myList != null;
@@ -55,7 +53,7 @@ public class DListNode extends ListNode {
    *  @return the node following this node.
    *  @exception InvalidNodeException if this node is not valid.
    *
-   *  Performance:  runs in O(1) time.
+   *  Running time: O(1).
    */
   public DListNode next() {
     return next;
@@ -69,7 +67,7 @@ public class DListNode extends ListNode {
    *  @return the node preceding this node.
    *  @exception InvalidNodeException if this node is not valid.
    *
-   *  Performance:  runs in O(1) time.
+   *  Running time: O(1).
    */
   public DListNode prev() {
     return prev;
@@ -82,7 +80,7 @@ public class DListNode extends ListNode {
    *  @param item the item to be inserted.
    *  @exception InvalidNodeException if this node is not valid.
    *
-   *  Performance:  runs in O(1) time.
+   *  Running time: O(1).
    */
   public void insertAfter(Object item) {
     // Your solution here.  Will look something like your Homework 4 solution,
@@ -103,14 +101,9 @@ public class DListNode extends ListNode {
    *  @param item the item to be inserted.
    *  @exception InvalidNodeException if this node is not valid.
    *
-   *  Performance:  runs in O(1) time.
+   *  Running time: O(1).
    */
   public void insertBefore(Object item) {
-    // Your solution here.  Will look something like your Homework 4 solution,
-    //   but changes are necessary.  For instance, there is no need to check if
-    //   "this" is null.  Remember that this node's "myList" field tells you
-    //   what DList it's in.  You should use myList.newNode() to create the
-    //   new node.
     DListNode node = ((DList) myList).newNode(item, (DList) myList, prev, next.prev);
     prev.next = node;
     prev = node;
@@ -123,18 +116,12 @@ public class DListNode extends ListNode {
    *
    *  @exception InvalidNodeException if this node is not valid.
    *
-   *  Performance:  runs in O(1) time.
+   *  Running time: O(1).
    */
   public void remove() {
-    // Your solution here.  Will look something like your Homework 4 solution,
-    //   but changes are necessary.  For instance, there is no need to check if
-    //   "this" is null.  Remember that this node's "myList" field tells you
-    //   what DList it's in.
     prev.next = next;
     next.prev = prev;
     myList.size--;
-
-
     // Make this node an invalid node, so it cannot be used to corrupt myList.
     myList = null;
     // Set other references to null to improve garbage collection.
