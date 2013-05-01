@@ -5,7 +5,6 @@ import set.*;
 import dict.*;
 import list.*;
 
-
 /**
  * The Kruskal class contains the method minSpanTree(), which implements
  * Kruskal's algorithm for computing a minimum spanning tree of a graph.
@@ -18,20 +17,23 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
   public static WUGraph minSpanTree(WUGraph g) {
-  	WUGraph t = new WUGraph(10);
+  	WUGraph t = new WUGraph();
   	Object[] gVertices = g.getVertices();
-  	EdgeObj[] allEdges = EdgeObj[g.edgeCount()];
-  	HashTableChained edgeHash = new HashTableChained(g.edgeCount());
+  	EdgeWeight[] allEdges = new EdgeWeight[g.edgeCount()];
+  	System.out.println("edgeCount: "+g.edgeCount());
+  	HashTableChained edgeHash = new HashTableChained();
   	int count = 0;
   	for (Object vertex : gVertices) {
   		t.addVertex(vertex);
-  		Neighbors neighbors = getNeighbors(vertex);
+  		Neighbors neighbors = g.getNeighbors(vertex);
   		Object[] nList = neighbors.neighborList;
   		int[] wList = neighbors.weightList;
-  		for (int i = 0; i<nList.length(); i++) {
-  			EdgeObj edge = new EdgeObj(vertex, nList[i], wList[i]);
+  		for (int i = 0; i<nList.length; i++) {
+  			System.out.println("i = "+i);
+  			EdgeWeight edge = new EdgeWeight(vertex, nList[i], wList[i]);
   			if (edgeHash.find(edge) == null) {
-  				edgeHash.insert(edge.pair, edge);
+  				System.out.println("adding edge: "+ edgeHash.find(edge)+"  count: "+count);
+  				edgeHash.insert(edge, edge);
 	  			allEdges[count] = edge;
 	  			count++;
   			}
@@ -39,6 +41,21 @@ public class Kruskal {
   	}
   	mergeSort(allEdges);
   	// do part [4]
+  	HashTableChained vertexDict = new HashTableChained();
+  	for (int v = 0; v < gVertices.length; v++) {
+  		vertexDict.insert(gVertices[v], v);
+  	}
+
+  	DisjointSets vSets = new DisjointSets(gVertices.length);
+  	for (EdgeWeight edge : allEdges) {
+  		int u = (int)(vertexDict.find(edge.o1).value());
+  		int v = (int)(vertexDict.find(edge.o2).value());
+  		if (vSets.find(u) != vSets.find(v)) {
+  			t.addEdge(edge.o1, edge.o2, edge.weight);
+  			vSets.union(u, v);
+  		}
+  	}
+  	return t;
   }
 
 
@@ -47,8 +64,8 @@ public class Kruskal {
    *  Mergesort algorithm.
    *  @param a an array of int items.
    **/
-  public static void mergeSort(EdgeObj[] a) {
-    EdgeObj[] tmpArray = new EdgeObj[a.length];
+  public static void mergeSort(EdgeWeight[] a) {
+    EdgeWeight[] tmpArray = new EdgeWeight[a.length];
 
     mergeSort(a, tmpArray, 0, a.length - 1);
   }
@@ -60,7 +77,7 @@ public class Kruskal {
    *  @param left the left-most index of the subarray.
    *  @param right the right-most index of the subarray.
    **/
-  private static void mergeSort(EdgeObj[] a, EdgeObj[] tmpArray, int left, int right) {
+  private static void mergeSort(EdgeWeight[] a, EdgeWeight[] tmpArray, int left, int right) {
     if (left < right) {
       int center = (left + right) / 2;
       mergeSort(a, tmpArray, left, center);
@@ -77,7 +94,7 @@ public class Kruskal {
    *  @param rightPos the index of the start of the second half.
    *  @param rightEnd the right-most index of the subarray.
    **/
-  private static void merge(EdgeObj[] a, EdgeObj[] tmpArray, int leftPos, int rightPos,
+  private static void merge(EdgeWeight[] a, EdgeWeight[] tmpArray, int leftPos, int rightPos,
                             int rightEnd) {
     int leftEnd = rightPos - 1;
     int tmpPos = leftPos;
@@ -102,6 +119,5 @@ public class Kruskal {
       a[rightEnd] = tmpArray[rightEnd];
     }
   }
-
 
 }
