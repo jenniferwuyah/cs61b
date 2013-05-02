@@ -8,63 +8,79 @@ Partner 2 Login: cs61b-ms
 Data Structures:
 Part I:
 	dict/HashtableChained:
-	O(1)	HashTableChained()
-
-	O(1)	int compFunction(int)
-
-	O(n)	void resize(double)
-
-	O(1)	Entry insert(Object, Object)
-
-	O(1)	Entry find(Object)
-
-	O(1)	Entry remove(Object)
+	O(1)	HashTableChained()			store vertices and edges for O(1) time retreval.
+	O(n)	void resize(double)						resize the hashtable for good load factor.
+	O(1)	Entry insert(Object, Object)					 add key and value to a hashtable.
+	O(1)	Entry find(Object)			 	 find a vertex or edge Entry in constant time.
+	O(1)	Entry remove(Object)		 remove a vertex or edge Entry in constant time.
 
 	dict/Entry:
-	O(1)	Object key()
+	O(1)	Object key()																 for HashTableChained items.
 	O(1)	Object value()
+		In WUGraph, 
+			vertexTable: key--Object, value--Vertex
+			edgeTable:   key--VertexPair, value--Edge
+		In Kruskal, 
+			edgeHash: key and value are both EdgeWeight
 
 	list/DList:
-	O(1)	DList()
-	O(1)	void insertBack(Object)
-	O(1)	DListNode front()
-	O(1)	DListNode back()
+	O(1)	DList()		contructs a DList, for storing vertices, edges in each vertex.
+	O(1)	void insertBack(Object)							for adding vertex or edge to a list.
+	O(1)	DListNode front()						used when trying to iterate through a DList.
+	O(1)	DListNode back()			used for getting the position of an edge or vertex
+																					right after inserting it into a DList.
 
 	list/DListNode:
-	O(1)	boolean isValidNode()
-	O(1)	DListNode next()
-	O(1)	void remove()
+	O(1)	boolean isValidNode()									used when iterating through DList, 
+																	 when get to the end of the list to stop loop.
+	O(1)	DListNode next()											 used for iterating through DList.
+	O(1)	void remove()			 used to remove edge or vertex from list in O(1) time.
 
 	graph/Edge:
-	O(1)	Edge(Object, Object, int)
-	O(1)	Object destination(Object)
-	O(1)	void remove()
+	O(1)	Edge(Object, Object, int)					representation of an edge for WUGraph.
+	O(1)	Object destination(Object)			get the vertex on the other end of edge.
+	O(1)	void remove()				removes itself and its partner(if any) in O(1) time.
 
 	graph/Vertex:
-	O(1)	Vertex(Object)
-	O(1)	void addEdge(Edge)
-	O(1)	void remove()
+	O(1)	Vertex(Object)									 representation of a vertex for WUGraph.
+	O(1)	void addEdge(Edge)				add edge to the list of edges for this Vertex,
+														 update the position of edge in vertex's edge DList.
+	O(1)	void remove()				remove itself from vertexList of graph in O(1) time.
 	
 	graph/VertexPair:
-	O(1)	VertexPair(Object, Object)
+	O(1)	VertexPair(Object, Object)					 representation used as key of Edge,
+																			also stored in a field in the Edge object.
 
 Part II:
 	EdgeWeight:
-	O(1)	EdgeWeight(Object, Object, int)
-	O(1)	int hashCode()
-	O(1)	boolean equals(Object)
+	O(1)	EdgeWeight(Object, Object, int)		representation of an edge for Kruskal.
+	O(1)	int hashCode()												for hashing the EdgeWeight object.
+	O(1)	boolean equals(Object)					checks to see if two EdgeWeight objects
+												represents the same edge. Order of pair does not matter.
 
 	Kruskal:
-	O(|E| log |E|)	void mergeSort(EdgeWeight[])
+	O(|E| log |E|)	void mergeSort(EdgeWeight[])		 sorts the array of all edges.
 
 
 
-what choices you made
-in your implementation to ensure that removeVertex() runs in O(d) time (as
-described in Part I, design element [4]) and getVertices() runs in O(|V|) time
-(design element [2]).
+In order for getVertices() to run in O(|V|) time, we included a DList that stores 
+all the vertices in graph. 
+This way we only have to iterate through the DList, which has a length of |V|
+(number of vertices) and add each item to the Object array.
+So in total the method runs in O(|V|) time.
 
-
-In order for getVertices() to run in O(|V|) time, we included a DList that stores all the vertices in graph. This way we only have to iterate through the DList, which has a length of V(number of vertices) and add each item to the Object array.
-
-To ensure that removeVertex() runs in O(d) time, we included a DListNode pointer for each Edge object as well as each Vertex object.
+To ensure that removeVertex() runs in O(d) time, we included a DListNode pointer 
+for each Edge object as well as each Vertex object. 
+To have removeVertex() runs in O(d) time, removing each edge has to take O(1) time.
+In order for this to happen, we store the position(DListNode pointer) of each Edge
+as well as its partner Edge in the Edge object. 
+This way we could retrieve the position of each edge object, along with the 
+position of its partner Edge in constant time, and remove it with remove() method 
+under DListNode, which also runs in constant time.
+So going through the list of Edges for a Vertex and removing each Edge would 
+take O(d) time in total, where d is the degree, or number of edges, of a Vertex.
+The same method applies to the vertex object, where each Vertex object has a field 
+that stores its position in the vertexList of a WUGraph. In this way we could 
+remove the vertex from the list in constant time.
+Removing an item from a hashtable also takes constant time.
+So in total, this method runs in O(d) time. 
