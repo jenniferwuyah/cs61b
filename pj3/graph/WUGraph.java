@@ -24,8 +24,8 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public WUGraph() {
-    vertexTable = new HashTableChained(10);
-    edgeTable = new HashTableChained(10);
+    vertexTable = new HashTableChained();
+    edgeTable = new HashTableChained();
     vertexList = new DList();
   }
 
@@ -104,7 +104,7 @@ public class WUGraph {
     DList allEdges = v.edges;
     DListNode thisEdge = allEdges.front();
     while (thisEdge.isValidNode()) {
-      Edge e = (Edge)(thisEdge.item());
+      Edge e = (Edge) thisEdge.item();
       Object o1 = e.pair.object1;
       Object o2 = e.pair.object2;
       thisEdge = thisEdge.next();
@@ -169,6 +169,7 @@ public class WUGraph {
     if (v.degree == 0) {
       return null;
     }
+
     DList allEdges = v.edges;
     DListNode node = allEdges.front();
     Neighbors n = new Neighbors();
@@ -197,16 +198,18 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public void addEdge(Object u, Object v, int weight) {
-    if (!(isVertex(u) && isVertex(v))) { // u and/or v is not vertex
+    // u and/or v is not vertex
+    if (!(isVertex(u) && isVertex(v))) {
       return;
     }
+    // edge is already contained in graph
     VertexPair pair = new VertexPair(u, v);
-    if (isEdge(u, v)) { // edge is already contained in graph
+    if (isEdge(u, v)) {
       Edge e = (Edge) findEdge(u, v).value();
       e.weight = weight;
       return;
     }
-    // adds an edge to graph
+    // add new edge
     Edge e1 = new Edge(u, v, weight);
     Vertex v1 = (Vertex) findVertex(u).value();
     if (u.equals(v)) { // self-edge is only added once
@@ -291,11 +294,11 @@ public class WUGraph {
    *
    *  Running time: O(1).
    */
-  public Entry findVertex(Object vertex) {
+  private Entry findVertex(Object vertex) {
     return vertexTable.find(vertex);
   }
 
-  public Entry findEdge(Object u, Object v) {
+  private Entry findEdge(Object u, Object v) {
     return edgeTable.find(new VertexPair(u, v));
   }
 

@@ -1,24 +1,22 @@
 /* EdgeWeight.java */
 
-import graph.*;
-
 /**
  * The EdgeWeight class represents an edge object for Kruskal's algorithm.
  * An EdgeWeight object holds the two connecting vertices and its weight.
  */
 
-public class EdgeWeight {
+class EdgeWeight {
 
 	Object o1, o2;
 	int weight;
 
   /**
-   *  EdgeWeight() constructor.
-   *  sets the two vertices and the weight of this edge.
+   * EdgeWeight() constructor.
+   * sets the two vertices and the weight of this edge.
    *
-   *  Running time: O(1).
+   * Running time: O(1).
    */
-	public EdgeWeight(Object u, Object v, int weight) {
+	protected EdgeWeight(Object u, Object v, int weight) {
 		this.o1 = u;
 		this.o2 = v;
 		this.weight = weight;

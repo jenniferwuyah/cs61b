@@ -11,7 +11,7 @@ import list.*;
  * Also holds its position in DList vertexList in a WUGraph.
  */
 
-public class Vertex {
+class Vertex {
 
 	Object vert;
 	int degree;
@@ -23,7 +23,7 @@ public class Vertex {
 	 *
 	 *	Running time: O(1).
 	 */
-	public Vertex(Object obj) {
+	protected Vertex(Object obj) {
 		vert = obj;
 		degree = 0;
 		edges = new DList();
@@ -34,7 +34,7 @@ public class Vertex {
 	 *
 	 *	Running time: O(1).
 	 */
-	public void addEdge(Edge e){
+	protected void addEdge(Edge e){
 		edges.insertBack(e);
 		e.position = this.edges.back();
 		degree++;
@@ -45,7 +45,7 @@ public class Vertex {
 	 *
 	 *	Running time: O(1).
 	 */
-	public void remove() {
+	protected void remove() {
 	    this.position.remove();
 	}
 }

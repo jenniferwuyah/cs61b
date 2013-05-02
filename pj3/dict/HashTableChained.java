@@ -1,6 +1,7 @@
 /* HashTableChained.java */
 
 package dict;
+
 import list.*;
 
 /**
@@ -11,22 +12,16 @@ import list.*;
  *  Integer.MIN_VALUE and Integer.MAX_VALUE.  The HashTableChained class
  *  implements only the compression function, which maps the hash code to
  *  a bucket in the table's range.
- *
- *  DO NOT CHANGE ANY PROTOTYPES IN THIS FILE.
  **/
 
 public class HashTableChained implements Dictionary {
 
-  /**
-   *  Place any data fields here.
-   **/
   public DList[] buckets;
   public int bucketSize;
   public int size = 0;
   private int a;
   private int b;
   private int p;
-
 
 
   /** 
@@ -36,7 +31,6 @@ public class HashTableChained implements Dictionary {
    *
    *  Running time: O(1).
    **/
-
   public HashTableChained(int sizeEstimate) {
     bucketSize = closestPrime(sizeEstimate);
     buckets = new DList[bucketSize];
@@ -49,9 +43,8 @@ public class HashTableChained implements Dictionary {
    *  Construct a new empty hash table with a default size.  Say, a prime in
    *  the neighborhood of 100.
    **/
-
   public HashTableChained() {
-    this(101);
+    this(13);
   }
 
   /**
@@ -59,7 +52,6 @@ public class HashTableChained implements Dictionary {
    *  isPrime() check if integer n is prime
    *  closestPrime() finds the closest prime to n.
    **/
-
   private boolean isPrime(int n) {
     if (n%2 == 0) {
       return false;
@@ -98,8 +90,9 @@ public class HashTableChained implements Dictionary {
    *
    *  This function should have package protection (so we can test it), and
    *  should be used by insert, find, and remove.
+   *
+   *  Running time: O(1).
    **/
-
   int compFunction(int code) {
     return mod(mod((a*code+b), p), (bucketSize-1));
   }
@@ -110,7 +103,6 @@ public class HashTableChained implements Dictionary {
    *  a separate entry.
    *  @return number of entries in the dictionary.
    **/
-
   public int size() {
     return size;
   }
@@ -120,7 +112,6 @@ public class HashTableChained implements Dictionary {
    *
    *  @return true if the dictionary has no entries; false otherwise.
    **/
-
   public boolean isEmpty() {
     return (size == 0);
   }
@@ -132,8 +123,7 @@ public class HashTableChained implements Dictionary {
    *
    *  Running time: O(n), where n is the number of items in the HashTable.
    **/
-
-  public void resize(double newSize) {
+  private void resize(double newSize) {
     bucketSize = closestPrime((int) (newSize*bucketSize));
     DList[] newBuckets = new DList[bucketSize];
     for (int i = 0; i < buckets.length; i++) {
@@ -166,7 +156,6 @@ public class HashTableChained implements Dictionary {
    *  @param value an arbitrary object.
    *  @return an entry containing the key and value.
    **/
-
   public Entry insert(Object key, Object value) {
     if ((double)size/bucketSize > 0.75) {
       resize(1.25);  // expands table 1.25x larger than the existing one
@@ -193,7 +182,6 @@ public class HashTableChained implements Dictionary {
    *  @return an entry containing the key and an associated value, or null if
    *          no entry contains the specified key.
    **/
-
   public Entry find(Object key) {
     if (buckets[compFunction(key.hashCode())] == null) {
       return null;
@@ -224,7 +212,6 @@ public class HashTableChained implements Dictionary {
    *  @return an entry containing the key and an associated value, or null if
    *          no entry contains the specified key.
    */
-
   public Entry remove(Object key) {
     if (buckets[compFunction(key.hashCode())] == null) {
       return null;
@@ -264,8 +251,6 @@ public class HashTableChained implements Dictionary {
       buckets[i] = new DList();
       size = 0;
     }
-
-
   }
 
   /**

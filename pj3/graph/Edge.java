@@ -11,7 +11,7 @@ import list.*;
  * and position in DList of the Vertex that holds it.
  */
 
-public class Edge {
+class Edge {
 
 	VertexPair pair;
 	Edge partner;
@@ -25,7 +25,7 @@ public class Edge {
 	 *
 	 *	Running time: O(1).
 	 */
-	public Edge(Object u, Object v, int weight) {
+	protected Edge(Object u, Object v, int weight) {
 		pair = new VertexPair(u, v);
 		this.weight = weight;
 	}
@@ -36,7 +36,7 @@ public class Edge {
 	 *
 	 *	Running time: O(1);
 	 */
-	public Object destination(Object u) {
+	protected Object destination(Object u) {
 		if (pair.object1.equals(u)) {
 			return pair.object2;
 		} else {
@@ -49,7 +49,7 @@ public class Edge {
 	 *
 	 *	Running time: O(1).
 	 */
-	public void remove() {
+	protected void remove() {
 		if (this.partner != null) {
 	      this.partner.position.remove();
 	    }

@@ -38,8 +38,10 @@ public class Kruskal {
   			}
   		}
   	}
+
     // Part [3]
   	mergeSort(allEdges);
+
   	// Part [4]
   	Dictionary vertexDict = new HashTableChained();
   	for (int v = 0; v < gVertices.length; v++) {
@@ -58,10 +60,10 @@ public class Kruskal {
   }
 
 
-  ///// SORTING ALGORITHM. Running time: O(|E| log |E|) /////
+  ///// SORTING ALGORITHM for Part [3]. Running time: O(|E| log |E|) /////
   /**
-   *  Mergesort algorithm.
-   *  @param a an array of int items.
+   * Mergesort algorithm.
+   * @param a an array of int items.
    **/
   public static void mergeSort(EdgeWeight[] a) {
     EdgeWeight[] tmpArray = new EdgeWeight[a.length];
@@ -69,11 +71,11 @@ public class Kruskal {
   }
 
   /**
-   *  Internal method that makes recursive calls.
-   *  @param a an array of int items.
-   *  @param tmpArray an array to place the merged result.
-   *  @param left the left-most index of the subarray.
-   *  @param right the right-most index of the subarray.
+   * Internal method that makes recursive calls.
+   * @param a an array of int items.
+   * @param tmpArray an array to place the merged result.
+   * @param left the left-most index of the subarray.
+   * @param right the right-most index of the subarray.
    **/
   private static void mergeSort(EdgeWeight[] a, EdgeWeight[] tmpArray, 
                                 int left, int right) {
@@ -86,12 +88,12 @@ public class Kruskal {
   }
 
   /**
-   *  Internal method that merges two sorted halves of a subarray.
-   *  @param a an array of int items.
-   *  @param tmpArray an array to place the merged result.
-   *  @param leftPos the left-most index of the subarray.
-   *  @param rightPos the index of the start of the second half.
-   *  @param rightEnd the right-most index of the subarray.
+   * Internal method that merges two sorted halves of a subarray.
+   * @param a an array of int items.
+   * @param tmpArray an array to place the merged result.
+   * @param leftPos the left-most index of the subarray.
+   * @param rightPos the index of the start of the second half.
+   * @param rightEnd the right-most index of the subarray.
    **/
   private static void merge(EdgeWeight[] a, EdgeWeight[] tmpArray, 
                             int leftPos, int rightPos, int rightEnd) {

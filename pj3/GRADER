@@ -5,3 +5,66 @@ Partner 1 Login: cs61b-wu
 Partner 2 Name: Cherie Tran
 Partner 2 Login: cs61b-ms
 
+Data Structures:
+Part I:
+	dict/HashtableChained:
+	O(1)	HashTableChained()
+
+	O(1)	int compFunction(int)
+
+	O(n)	void resize(double)
+
+	O(1)	Entry insert(Object, Object)
+
+	O(1)	Entry find(Object)
+
+	O(1)	Entry remove(Object)
+
+	dict/Entry:
+	O(1)	Object key()
+	O(1)	Object value()
+
+	list/DList:
+	O(1)	DList()
+	O(1)	void insertBack(Object)
+	O(1)	DListNode front()
+	O(1)	DListNode back()
+
+	list/DListNode:
+	O(1)	boolean isValidNode()
+	O(1)	DListNode next()
+	O(1)	void remove()
+
+	graph/Edge:
+	O(1)	Edge(Object, Object, int)
+	O(1)	Object destination(Object)
+	O(1)	void remove()
+
+	graph/Vertex:
+	O(1)	Vertex(Object)
+	O(1)	void addEdge(Edge)
+	O(1)	void remove()
+	
+	graph/VertexPair:
+	O(1)	VertexPair(Object, Object)
+
+Part II:
+	EdgeWeight:
+	O(1)	EdgeWeight(Object, Object, int)
+	O(1)	int hashCode()
+	O(1)	boolean equals(Object)
+
+	Kruskal:
+	O(|E| log |E|)	void mergeSort(EdgeWeight[])
+
+
+
+what choices you made
+in your implementation to ensure that removeVertex() runs in O(d) time (as
+described in Part I, design element [4]) and getVertices() runs in O(|V|) time
+(design element [2]).
+
+
+In order for getVertices() to run in O(|V|) time, we included a DList that stores all the vertices in graph. This way we only have to iterate through the DList, which has a length of V(number of vertices) and add each item to the Object array.
+
+To ensure that removeVertex() runs in O(d) time, we included a DListNode pointer for each Edge object as well as each Vertex object.

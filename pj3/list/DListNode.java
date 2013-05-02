@@ -83,11 +83,6 @@ public class DListNode extends ListNode {
    *  Running time: O(1).
    */
   public void insertAfter(Object item) {
-    // Your solution here.  Will look something like your Homework 4 solution,
-    //   but changes are necessary.  For instance, there is no need to check if
-    //   "this" is null.  Remember that this node's "myList" field tells you
-    //   what DList it's in.  You should use myList.newNode() to create the
-    //   new node.
     DListNode node = ((DList) myList).newNode(item, (DList) myList, prev.next, next);
     next.prev = node;
     next = node;
